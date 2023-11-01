@@ -1,4 +1,3 @@
-// Implements a dictionary's functionality
 
 #include <ctype.h>
 #include <stdbool.h>
@@ -8,23 +7,19 @@
 
 #include "dictionary.h"
 
-// Represents a node in a hash table
 typedef struct node
 {
     char word[LENGTH + 1];
     struct node *next;
 } node;
 
-// Choose number of buckets in hash table
 int N = 100;
 
 // Hash table
-node *table[100]; // change the number of elements as the number of N changes
+node *table[100]; 
 
-// a function that lowers the word
 char *lowerWord(char *word)
 {
-    // iterate through all the char in word
     for (int i = 0; i < strlen(word); i++)
     {
         word[i] = tolower(word[i]);
@@ -35,17 +30,13 @@ char *lowerWord(char *word)
 // Returns true if word is in dictionary, else false
 bool check(const char *word)
 {
-    // lower the input word so that the function is case-insensitive
     char *temp = lowerWord(word);
 
-    // gets the index in hash table
     int hashIndex = hash(temp);
 
-    // use a pointer to traverse the linked list
     node *p = table[hashIndex];
     while (p)
     {
-        // if the word is found
         if (p->word == temp)
         {
             return true;
@@ -53,8 +44,6 @@ bool check(const char *word)
 
         p = p->next;
     }
-
-    // if the word is not in the dict
     return false;
 }
 
@@ -73,7 +62,7 @@ unsigned int hash(const char *word)
     return sum % N;
 }
 
-// Loads dictionary into memory, returning true if successful, else false
+// loads dictionary into memory, returning true if successful, else false
 bool load(const char *dictionary)
 {
     FILE *file = fopen(dictionary, "r");
@@ -85,7 +74,6 @@ bool load(const char *dictionary)
     char words[LENGTH + 1];
     while (fscanf(file, "%s", words) != EOF)
     {
-        // define a node temp and assign value to its word
         node *temp = malloc(sizeof(node));
         if (temp == NULL)
         {
